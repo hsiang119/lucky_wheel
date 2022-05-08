@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       transitionTime: '2.5s', // 指針旋轉動畫秒數
-      clickable: true,
+      clickable: true, // Start為可點擊狀態
       prize1: [], // 抽獎資訊
       Deg: 0, // 旋轉角度
       prizeContent: '', // 中獎項目
@@ -44,11 +44,10 @@ export default {
       // 傳回旋轉與變形角度
       return `transform:rotate(${tilt + index * deg}deg)`
     },
-    // 渲染文字  rotate(90deg) translate(100px, 35px)
     drawContent (index, prize) {
       // 依抽獎項目數量推算一面扇形上獎品項目數量的面積
       const deg = 360 / prize.length
-      // 處理傾斜與變形
+      // 處理獎品文字位置
       const translate = prize.length > 10 ? 'translate(10px, 180px)' : 'translate(100px, 35px)'
       return `transform:rotate(${deg}deg)${translate}`
     },
@@ -72,9 +71,7 @@ export default {
       if (this.clickable === false) return
       this.clickable = false
       this.transitionTime = '2.5s'
-      // 隨機亂數
-      // let random = 0
-      // 轉2圈
+      // 轉三圈
       const circle = 3
       // 中獎內容
       let prizeContent = ''
@@ -118,25 +115,29 @@ export default {
     },
     // 重新開始
     reset () {
-      // console.log('111111111')
       const vm = this // eslint-disable-line no-unused-vars
-      confirm('是否重置獎品數量?')
-      // 清空陣列(已變動數量)
-      this.prize1 = []
-      // 重新取得資料
-      this.getJSON()
-      // 重新開始指針歸零 不需要動畫
-      this.transitionTime = '0s'
-      this.Deg = -45
-      this.total1 = 10
-      document.querySelector('.hours-hand').style.transform = `rotate(${this.Deg}deg)`
+      const cfm = confirm('是否重置獎品數量?') // eslint-disable-line no-unused-vars
+      if (cfm === true) {
+        // 清空陣列(已變動數量)
+        vm.prize1 = []
+        // 重新取得資料
+        vm.getJSON()
+        // 指針重新開始歸零但不需要動畫
+        vm.transitionTime = '0s'
+        // 指針起始角度
+        vm.Deg = -45
+        // 獎品總數量重置為10份
+        vm.total1 = 10
+        document.querySelector('.hours-hand').style.transform = `rotate(${this.Deg}deg)`
+      } else if (vm.total1 === 0) {
+        vm.reset()
+      }
     },
     getJSON () {
       // 取得獎品資料
       const vm = this
       // 取得抽獎資料
       fetch('db.json').then(response => {
-        // console.log(response)
         return response.json()
       }).then(response => {
         vm.prize1 = response
@@ -154,6 +155,8 @@ export default {
 $color-btn: #3d3e3f;
 $color-dark: #facdcd;
 $color-light: #fc5f60;
+$color-white: #fff;
+$color-triangle: #c3c4c5;
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -170,10 +173,10 @@ $color-light: #fc5f60;
 .start {
   width: 100px;
   height: 70px;
-  background-color: #fff;
+  background-color: $color-white;
   text-align: center;
   line-height: 70px;
-  $color-btn: black;
+  color: $color-btn;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -195,7 +198,7 @@ $color-light: #fc5f60;
   transform: translate(-50%,-50%);
   .innerWheel{
     .sector{
-      border: 1px solid #fff;
+      border: 1px solid $color-white;
       width: 50%;
       height: 50%;
       position: absolute;
@@ -210,21 +213,21 @@ $color-light: #fc5f60;
     }
     .content {
       .prize-text{
-        color: #fff;
+        color: $color-white;
         font-size: 18px;
       }
       .prize-text2{
-        color: #fff;
+        color: $color-white;
         transform: rotate(270deg) translate(10px, 24px);
         font-size: 18px;
       }
       .prize-text3{
-        color: #fff;
+        color: $color-white;
         transform: rotate(180deg) translate(-25px, 4px);
         font-size: 18px;
       }
       .prize-text4{
-        color: #fff;
+        color: $color-white;
         transform: rotate(90deg) translate(-35px, -20px);
         font-size: 18px;
       }
@@ -246,7 +249,7 @@ $color-light: #fc5f60;
     content: '';
     width: 0;
     height: 0;
-    border: 0.9em solid #c3c4c5;
+    border: 0.9em solid $color-triangle;
     border-width: 6.4em 0.9em 0em 0.9em;
     border-left-color: transparent;
     border-right-color: transparent;
