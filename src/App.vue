@@ -120,7 +120,7 @@ export default {
     reset () {
       // console.log('111111111')
       const vm = this // eslint-disable-line no-unused-vars
-      alert('是否重置獎品數量?')
+      confirm('是否重置獎品數量?')
       // 清空陣列(已變動數量)
       this.prize1 = []
       // 重新取得資料
