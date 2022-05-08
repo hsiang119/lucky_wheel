@@ -184,6 +184,7 @@ $color-triangle: #c3c4c5;
   z-index: 2;
   border: 0;
   font-size: 18px;
+  cursor: pointer;
 }
 
 .wheel {
