@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "prize": "body_care_gift",
+        "number": "1"
+    },
+    {
+        "id": 2,
+        "prize": "face_care_gift",
+        "number": "2"
+    },
+    {
+        "id": 3,
+        "prize": "healthy_gift",
+        "number": "3"
+    },
+    {
+        "id": 4,
+        "prize": "special_gift",
+        "number": "4"
+    }
+]
