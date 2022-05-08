@@ -41,7 +41,7 @@ export default {
       // 依抽獎項目數量推算一面扇形的面積
       const deg = 360 / prize.length
       const tilt = -deg
-      // 傳回旋轉與變形角度
+      // 傳回旋轉角度
       return `transform:rotate(${tilt + index * deg}deg)`
     },
     drawContent (index, prize) {
@@ -68,50 +68,53 @@ export default {
       return index[num]
     },
     start () {
-      if (this.clickable === false) return
-      this.clickable = false
-      this.transitionTime = '2.5s'
-      // 轉三圈
-      const circle = 3
-      // 中獎內容
-      let prizeContent = ''
-      // 機率取抽獎亂數
-      const random = this.getRandom(this.prize1, this.total1)
-      // 每個獎項的扇形角度
-      const deg = 360 / this.prize1.length
-      // 旋轉角度 轉x圈+亂數*單一獎項扇形角度
-      const rotate = circle * 360 + random * deg
-      // 總共旋轉角度(之前停下的角度也要列入計算)
-      this.Deg += rotate - (this.Deg % 360) - 45
-      // 中獎商品名稱
-      prizeContent = this.prize1[random].prize // eslint-disable-line no-unused-vars
-      document.querySelector('.hours-hand').style.transform = `rotate(${this.Deg}deg)`
-      // 畫面顯示中獎
-      const sectors = document.querySelectorAll('.sector')
-      // 清除之前中獎樣式
-      sectors.forEach((value) => {
-        value.classList.remove('active')
-      })
-      // 旋轉動畫並停在獎品上
-      document.querySelector('.hours-hand').style.transform = `rotate(${this.Deg}deg)`
-      // 停在獎品上後顯示中獎項目
-      const vm = this
-      setTimeout(function () {
-        vm.prizeContent = prizeContent
-        sectors[random].classList.add('active')
-        // 抽獎資料扣除已中獎商品
-        if (vm.prize1[random].number > 0) {
-          vm.prize1[random].number -= 1
-          vm.total1 -= 1
-        }
-        vm.clickable = true
-      }, 2500)
-      setTimeout(function () {
-        alert('恭喜您抽中: ' + prizeContent)
-        if (vm.total1 === 0) {
-          vm.reset()
-        }
-      }, 2800)
+      if (this.clickable === true) {
+        // 指針轉動的動畫時間
+        this.transitionTime = '2.5s'
+        // 指針旋轉時的狀態是不可點擊的
+        this.clickable = !this.clickable
+        // 轉三圈
+        const circle = 3
+        // 中獎內容
+        let prizeContent = ''
+        // 機率取抽獎亂數
+        const random = this.getRandom(this.prize1, this.total1)
+        // 每個獎項的扇形角度
+        const deg = 360 / this.prize1.length
+        // 旋轉角度 轉x圈+亂數*單一獎項扇形角度
+        const rotate = circle * 360 + random * deg
+        // 總共旋轉角度(之前停下的角度也要列入計算)
+        this.Deg += rotate - (this.Deg % 360) - 45
+        // 中獎商品名稱
+        prizeContent = this.prize1[random].prize // eslint-disable-line no-unused-vars
+        document.querySelector('.hours-hand').style.transform = `rotate(${this.Deg}deg)`
+        // 畫面顯示中獎
+        const sectors = document.querySelectorAll('.sector')
+        // 清除之前中獎樣式
+        sectors.forEach((value) => {
+          value.classList.remove('active')
+        })
+        // 旋轉動畫並停在獎品上
+        document.querySelector('.hours-hand').style.transform = `rotate(${this.Deg}deg)`
+        // 停在獎品上後顯示中獎項目
+        const vm = this
+        setTimeout(function () {
+          vm.prizeContent = prizeContent
+          sectors[random].classList.add('active')
+          // 抽獎資料扣除已中獎商品
+          if (vm.prize1[random].number > 0) {
+            vm.prize1[random].number -= 1
+            vm.total1 -= 1
+          }
+          vm.clickable = true
+        }, 2500)
+        setTimeout(function () {
+          alert('恭喜您抽中: ' + prizeContent)
+          if (vm.total1 === 0) {
+            vm.reset()
+          }
+        }, 2800)
+      }
     },
     // 重新開始
     reset () {
