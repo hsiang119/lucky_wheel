@@ -129,8 +129,8 @@ export default {
         // 獎品總數量重置為10份
         vm.total1 = 10
         document.querySelector('.hours-hand').style.transform = `rotate(${this.Deg}deg)`
-      } else if (vm.total1 === 0) {
-        vm.reset()
+      } else {
+        return false
       }
     },
     getJSON () {
