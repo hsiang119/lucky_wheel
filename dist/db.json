@@ -1,22 +1,22 @@
 [
     {
         "id": 1,
-        "prize": "body_care_gift",
+        "prize": "Body Care Gift",
         "number": "1"
     },
     {
         "id": 2,
-        "prize": "face_care_gift",
+        "prize": "Face Care Gift",
         "number": "2"
     },
     {
         "id": 3,
-        "prize": "healthy_gift",
-        "number": "3"
+        "prize": "Special Gift",
+        "number": "4"
     },
     {
         "id": 4,
-        "prize": "special_gift",
-        "number": "4"
+        "prize": "Healthy Gift",
+        "number": "3"
     }
 ]
